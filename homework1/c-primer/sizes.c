@@ -4,8 +4,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#define PRINT_SIZE(A) (printf("size of "#A" : %zu bytes \n", sizeof(A)))
-
 int main() {
   // Please print the sizes of the following types:
   // int, short, long, char, float, double, unsigned int, long long
@@ -14,25 +12,8 @@ int main() {
 
   // Here's how to show the size of one type. See if you can define a macro
   // to avoid copy pasting this code.
-  PRINT_SIZE(int);
-  PRINT_SIZE(short);
-  PRINT_SIZE(long);
-  PRINT_SIZE(char);
-  PRINT_SIZE(float);
-  PRINT_SIZE(double);
-  PRINT_SIZE(unsigned int);
-  PRINT_SIZE(long long);
-  PRINT_SIZE(uint8_t);
-  PRINT_SIZE(uint16_t);
-  PRINT_SIZE(uint32_t);
-  PRINT_SIZE(uint64_t);
-  PRINT_SIZE(uint_fast8_t);
-  PRINT_SIZE(uint_fast16_t);
-  PRINT_SIZE(uintmax_t);
-  PRINT_SIZE(intmax_t);
-  PRINT_SIZE(__int128);
-
-  //      PRINT_SIZE("int", int);
+  printf("size of %s : %zu bytes \n", "int", sizeof(int));
+  // e.g. PRINT_SIZE("int", int);
   //      PRINT_SIZE("short", short);
 
   // Alternatively, you can use stringification
