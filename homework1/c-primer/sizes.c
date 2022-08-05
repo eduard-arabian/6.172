@@ -4,7 +4,12 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#define PRINT_SIZE(A) (printf("size of "#A" : %zu bytes \n", sizeof(A)))
+#define PRINT_SIZE(A) {\
+    printf("size of "#A" : %zu bytes\n", sizeof(A));\
+    printf("pointer size of "#A" : %zu bytes\n", sizeof(A*));\
+}
+
+#define PRINT_USUAL_SIZE(A) (printf("size of "#A" : %zu bytes\n", sizeof(A)))
 
 int main() {
     PRINT_SIZE(int);
@@ -34,10 +39,12 @@ int main() {
     you.id = 12345;
     you.year = 4;
 
-    PRINT_SIZE(you);
+    PRINT_USUAL_SIZE(you);
+    printf("pointer size of you : %zu bytes\n", sizeof(&you));
 
     int x[5];
-    PRINT_SIZE(x);
+    PRINT_USUAL_SIZE(x);
+    printf("pointer size of x : %zu bytes\n", sizeof(&x));
 
 
     return 0;
