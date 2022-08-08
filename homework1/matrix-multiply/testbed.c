@@ -36,6 +36,7 @@
 #include "./fasttime.h"
 #include "./matrix_multiply.h"
 
+#define MAX 20
 
 int main(int argc, char** argv) {
   int optchar = 0;
@@ -50,7 +51,7 @@ int main(int argc, char** argv) {
   matrix* B;
   matrix* C;
 
-  const int kMatrixSize = 4;
+  const int kMatrixSize = MAX;
 
 
   // Parse command line arguments
@@ -72,27 +73,29 @@ int main(int argc, char** argv) {
   }
 
   // This is a trick to make the memory bug leads to a wrong output.
-  int size = sizeof(int) * 4;
-  int* temp[20];
+  int size = sizeof(int);
+  int* temp[MAX];
 
-  for (int i = 0; i < 20; i++) {
-    temp[i] = (int*)malloc(size);
-    memset(temp[i], 1, size);
+  for (int i = 0; i < MAX; i++) {
+    temp[i] = (int*)malloc(size * MAX);
+    memset(temp[i], 1, size * MAX);
   }
+
   int total = 0;
-  for (int i = 0; i < 20; i++) {
-    for (int j = 0; j < 4; j++) {
+  for (int i = 0; i < MAX; i++) {
+    for (int j = 0; j < MAX; j++) {
       total += temp[i][j];
     }
   }
+
   if (!total) printf("Trick to stop mallocs from being optimized out.");
-  for (int i = 0; i < 20; i++) {
+  for (int i = 0; i < MAX; i++) {
     free(temp[i]);
   }
 
   fprintf(stderr, "Setup\n");
 
-  A = make_matrix(kMatrixSize, kMatrixSize+1);
+  A = make_matrix(kMatrixSize, kMatrixSize);
   B = make_matrix(kMatrixSize, kMatrixSize);
   C = make_matrix(kMatrixSize, kMatrixSize);
 
@@ -149,6 +152,11 @@ int main(int argc, char** argv) {
     double elapsed = tdiff(time1, time2);
     printf("Elapsed execution time: %f sec\n", elapsed);
   }
+
+  free_matrix(A);
+  free_matrix(B);
+  free_matrix(C);
+
 
   return 0;
 }
