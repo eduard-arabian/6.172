@@ -73,9 +73,38 @@ void print_matrix(const matrix* m) {
   printf("------------\n");
 }
 
+// Optimized Multiply matrix A*B, store result in C.
+int matrix_multiply_run(const matrix* A, const matrix* B, matrix* C) {
+
+            tbassert(A->cols == B->rows,
+                     "A->cols = %d, B->rows = %d\n", A->cols, B->rows);
+            tbassert(A->rows == C->rows,
+                     "A->rows = %d, C->rows = %d\n", A->rows, C->rows);
+            tbassert(B->cols == C->cols,
+                     "B->cols = %d, C->cols = %d\n", B->cols, C->cols);
+
+    int n = A->cols;
+    int s = 256;
+    int t = 64;
+
+    for (int ih = 0; ih < n; ih += s)
+        for (int jh = 0; jh < n; jh += s)
+            for (int kh = 0; kh < n; kh += s)
+                for (int im = 0; im < s; im += t)
+                    for (int km = 0; km < s; km += t)
+                        for (int jm = 0; jm < s; jm += t)
+                            for (int il = 0; il < t; ++il)
+                                for (int kl = 0; kl < t; ++kl)
+                                    for (int jl = 0; jl < t; ++jl)
+                                        C->values[ih + im + il][jh + jm + jl]
+                                                += A->values[ih + im + il][kh + km + kl]
+                                                   * B->values[kh + km + kl][jh + jm + jl];
+
+    return 0;
+}
 
 // Multiply matrix A*B, store result in C.
-int matrix_multiply_run(const matrix* A, const matrix* B, matrix* C) {
+int matrix_multiply_run_old(const matrix* A, const matrix* B, matrix* C) {
 
   tbassert(A->cols == B->rows,
            "A->cols = %d, B->rows = %d\n", A->cols, B->rows);

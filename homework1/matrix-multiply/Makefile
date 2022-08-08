@@ -34,6 +34,8 @@ CFLAGS_DEBUG := -g -DDEBUG -O0
 # optimization level to three.  -DNDEBUG defines the NDEBUG macro,
 # which disables assertion checks.
 CFLAGS_RELEASE := -O3 -DNDEBUG
+CFLAGS_RELEASE += -march=native -ffast-math
+# CFLAGS_RELEASE += -fcilkplus
 
 # These flags are used to invoke Clang's address sanitizer.
 CFLAGS_ASAN := -O3 -g -fsanitize=address

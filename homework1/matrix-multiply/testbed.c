@@ -36,7 +36,7 @@
 #include "./fasttime.h"
 #include "./matrix_multiply.h"
 
-#define MAX 20
+#define MAX 1024
 
 int main(int argc, char** argv) {
   int optchar = 0;
